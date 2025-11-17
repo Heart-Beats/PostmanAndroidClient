@@ -6,6 +6,8 @@ enum class MimeType(val type: String) {
 
     TEXT("text/plain"),
 
+    JSON("application/json"),
+
     IMAGE("image/*")
 
 }

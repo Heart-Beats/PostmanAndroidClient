@@ -13,6 +13,8 @@ sealed class BodyInfo(bodyType: BodyType) {
 
     data class RawBody(var content: String) : BodyInfo(BodyType.RAW)
 
+    data class JsonBody(var content: String) : BodyInfo(BodyType.JSON)
+
     data class FormDataBody(var content: Map<String, FormDataContent>) :
         BodyInfo(BodyType.FORM_DATA)
 }
@@ -27,5 +29,6 @@ sealed class FormDataContent {
 enum class BodyType {
     NO_BODY,
     FORM_DATA,
-    RAW
+    RAW,
+    JSON
 }

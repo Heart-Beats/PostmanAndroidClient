@@ -7,11 +7,18 @@ import io.rotlabs.postmanandroidclient.data.models.FormDataContent
 import io.rotlabs.postmanandroidclient.data.models.RequestMethod
 import io.rotlabs.postmanandroidclient.utils.network.MimeType
 import io.rotlabs.postmanandroidclient.utils.network.getRequestOrThrowException
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Credentials
+import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -92,6 +99,7 @@ class RestClient @Inject constructor(private val httpClient: OkHttpClient) {
 
         val requestBody = when (bodyInfo) {
             is BodyInfo.RawBody -> bodyInfo.content.toRequestBody(MimeType.TEXT.type.toMediaTypeOrNull())
+            is BodyInfo.JsonBody -> bodyInfo.content.toRequestBody(MimeType.JSON.type.toMediaTypeOrNull())
             is BodyInfo.FormDataBody -> {
                 if (bodyInfo.content.isNotEmpty()) {
                     generateFormDataRequestBody(bodyInfo)

@@ -1,7 +1,6 @@
 package io.rotlabs.postmanandroidclient.ui.makeRequest.body
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import io.reactivex.disposables.CompositeDisposable
-import io.rotlabs.postmanandroidclient.R
-import io.rotlabs.postmanandroidclient.data.models.AuthType
 import io.rotlabs.postmanandroidclient.data.models.BodyInfo
 import io.rotlabs.postmanandroidclient.data.models.BodyType
 import io.rotlabs.postmanandroidclient.data.models.FormDataContent
@@ -97,6 +94,7 @@ class BodyFragment : BaseFragment<FragmentBodyBinding, BodyViewModel>(),
             0 -> showAndSelectNoBody()
             1 -> showAndSelectFormDataBody()
             2 -> showAndSelectRawBody()
+            3 -> showAndSelectJsonBody()
         }
     }
 
@@ -136,6 +134,18 @@ class BodyFragment : BaseFragment<FragmentBodyBinding, BodyViewModel>(),
 
         val rawContent = binding.etRawBodyBox.text?.toString() ?: ""
         currentBodyInfo = BodyInfo.RawBody(rawContent)
+        makeRequestSharedViewModel.bodyInfo.postValue(currentBodyInfo)
+    }
+
+    private fun showAndSelectJsonBody() {
+        with(binding) {
+            tvNoBody.isVisible = false
+            addKeyValueLayout.isVisible = false
+            etRawBodyBox.isVisible = true
+        }
+
+        val jsonContent = binding.etRawBodyBox.text?.toString() ?: ""
+        currentBodyInfo = BodyInfo.JsonBody(jsonContent)
         makeRequestSharedViewModel.bodyInfo.postValue(currentBodyInfo)
     }
 
