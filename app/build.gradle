@@ -4,8 +4,6 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'jacoco'
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
 }
 
 apply from: 'jacoco.gradle'
@@ -154,10 +152,4 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-
-
-    // firebase dependencies
-    implementation platform("com.google.firebase:firebase-bom:$firebase_version")
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
 }
