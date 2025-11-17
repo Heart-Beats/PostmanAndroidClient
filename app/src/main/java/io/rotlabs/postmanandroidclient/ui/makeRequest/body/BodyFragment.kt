@@ -1,6 +1,8 @@
 package io.rotlabs.postmanandroidclient.ui.makeRequest.body
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +41,22 @@ class BodyFragment : BaseFragment<FragmentBodyBinding, BodyViewModel>(),
     private var currentBodyInfo: BodyInfo = BodyInfo.NoBody()
 
     private val currentFormDataMap = mutableMapOf<String, FormDataContent>()
+
+    private val etRawBodyBoxTextChangeListener = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            val jsonContent = s?.toString() ?: ""
+            currentBodyInfo = BodyInfo.JsonBody(jsonContent)
+            makeRequestSharedViewModel.bodyInfo.postValue(currentBodyInfo)
+        }
+    }
 
     override fun initializeBinding(
         inflater: LayoutInflater,
@@ -132,9 +150,7 @@ class BodyFragment : BaseFragment<FragmentBodyBinding, BodyViewModel>(),
             etRawBodyBox.isVisible = true
         }
 
-        val rawContent = binding.etRawBodyBox.text?.toString() ?: ""
-        currentBodyInfo = BodyInfo.RawBody(rawContent)
-        makeRequestSharedViewModel.bodyInfo.postValue(currentBodyInfo)
+        binding.etRawBodyBox.addTextChangedListener(etRawBodyBoxTextChangeListener)
     }
 
     private fun showAndSelectJsonBody() {
@@ -144,9 +160,7 @@ class BodyFragment : BaseFragment<FragmentBodyBinding, BodyViewModel>(),
             etRawBodyBox.isVisible = true
         }
 
-        val jsonContent = binding.etRawBodyBox.text?.toString() ?: ""
-        currentBodyInfo = BodyInfo.JsonBody(jsonContent)
-        makeRequestSharedViewModel.bodyInfo.postValue(currentBodyInfo)
+        binding.etRawBodyBox.addTextChangedListener(etRawBodyBoxTextChangeListener)
     }
 
     private fun setupRawBodyContentBox() {
